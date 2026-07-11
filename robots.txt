@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dwolfpack.github.io/ai-video-tutorial/sitemap.xml

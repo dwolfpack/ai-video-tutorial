@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{var t=localStorage.getItem('ai-video-tutorial-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <title>Prompt Library — AI Video Generation Prompts</title>
 <meta name="description" content="Ready-to-copy prompts for AI video generation: explainers, product demos, social hooks, and testimonials, for use with Veo, Meta AI, and similar tools.">
 <meta property="og:title" content="Prompt Library — AI Video Generation Prompts">
@@ -10,6 +11,7 @@
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://dwolfpack.github.io/ai-video-tutorial/assets/og-image.svg">
 <meta property="og:url" content="https://dwolfpack.github.io/ai-video-tutorial/prompts.html">
+<link rel="canonical" href="https://dwolfpack.github.io/ai-video-tutorial/prompts.html">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +22,7 @@
     --card: #ffffff; --line: #e4dfd4; --amber: #e8842c; --amber-soft: #fdeedd;
     --violet: #6c5ce7; --teal: #0d9488; --blue: #2563eb; --rose: #e11d48;
     --radius: 14px; --shadow: 0 1px 3px rgba(22,24,31,.06), 0 8px 24px rgba(22,24,31,.07);
+    --ink-fixed: #16181f; --cream-fixed: #faf8f4;
   }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 16.5px; }
@@ -33,7 +36,7 @@
   .site-nav .links a { color: rgba(245,242,234,.68); text-decoration: none; font-size: .85rem; font-weight: 500; }
   .site-nav .links a:hover, .site-nav .links a.active { color: #f0b27a; }
 
-  .hero { background: var(--ink); color: #f5f2ea; padding: 4rem 1.5rem 3.5rem; text-align: center; }
+  .hero { background: var(--ink-fixed); color: #f5f2ea; padding: 4rem 1.5rem 3.5rem; text-align: center; }
   .hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 900; margin: 0 0 .8rem; }
   .hero p { color: rgba(245,242,234,.75); max-width: 580px; margin: 0 auto; }
 
@@ -58,7 +61,7 @@
   .prompt-card h3 { font-size: 1rem; margin: 0 0 .4rem; font-family: "Inter"; font-weight: 700; }
   .prompt-card .body {
     font-family: "JetBrains Mono", monospace; font-size: .82rem; line-height: 1.7;
-    background: var(--paper-warm); border-radius: 8px; padding: .8rem 1rem;
+    background: #f3efe7; border-radius: 8px; padding: .8rem 1rem;
     white-space: pre-wrap; color: #2a2d38;
   }
   .prompt-card .row-actions { margin-top: .6rem; display: flex; align-items: center; gap: .8rem; }
@@ -74,12 +77,19 @@
 
   footer { text-align: center; padding: 2rem 1.5rem; color: var(--ink-soft); font-size: .85rem; border-top: 1px solid var(--line); margin-top: 2rem; }
 </style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
 
 <nav class="site-nav">
   <div class="site-nav-inner">
     <a class="brand" href="index.html">🎬 AI Video Tutorial</a>
+    <div class="nav-controls">
+      <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    </div>
     <div class="links">
       <a href="index.html">Hub</a>
       <a href="tutorial.html">Tutorial</a>
@@ -95,14 +105,14 @@
   <p>Tested, ready-to-copy prompts for Veo 3.1, Meta AI, and similar text-to-video models — organized by genre.</p>
 </header>
 
-<div class="container">
+<div class="container" id="main">
 
-  <div class="filters" id="filters">
-    <button class="active" data-genre="all">All</button>
-    <button data-genre="explainer">Explainer</button>
-    <button data-genre="product">Product Demo</button>
-    <button data-genre="social">Social Hook</button>
-    <button data-genre="testimonial">Testimonial</button>
+  <div class="filters" id="filters" role="group" aria-label="Filter prompts by genre">
+    <button class="active" data-genre="all" aria-pressed="true">All</button>
+    <button data-genre="explainer" aria-pressed="false">Explainer</button>
+    <button data-genre="product" aria-pressed="false">Product Demo</button>
+    <button data-genre="social" aria-pressed="false">Social Hook</button>
+    <button data-genre="testimonial" aria-pressed="false">Testimonial</button>
   </div>
 
   <div id="prompt-list"></div>
@@ -112,6 +122,7 @@
   Compiled July 2026 · Part of the <a href="index.html">AI Video Tutorial</a> hub
 </footer>
 
+<script src="assets/site.js" defer></script>
 <script>
 const PROMPTS = [
   {
@@ -243,8 +254,12 @@ function render(filter) {
 
 document.getElementById('filters').addEventListener('click', e => {
   if (e.target.tagName !== 'BUTTON') return;
-  document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#filters button').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
   e.target.classList.add('active');
+  e.target.setAttribute('aria-pressed', 'true');
   render(e.target.dataset.genre);
 });
 

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{var t=localStorage.getItem('ai-video-tutorial-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <title>Creating High-Resolution AI Videos — A Practical Tutorial</title>
 <meta name="description" content="A practical tutorial: combine Claude, Google Gemini (Veo), and Meta AI into one pipeline to create high-resolution AI videos.">
 <meta property="og:title" content="Creating High-Resolution AI Videos — A Practical Tutorial">
@@ -11,6 +12,9 @@
 <meta property="og:image" content="https://dwolfpack.github.io/ai-video-tutorial/assets/og-image.svg">
 <meta property="og:url" content="https://dwolfpack.github.io/ai-video-tutorial/tutorial.html">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://dwolfpack.github.io/ai-video-tutorial/tutorial.html">
+<link rel="alternate" hreflang="en" href="https://dwolfpack.github.io/ai-video-tutorial/tutorial.html">
+<link rel="alternate" hreflang="he" href="https://dwolfpack.github.io/ai-video-tutorial/he/tutorial.html">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,6 +39,8 @@
     --blue-soft: #e3ecfd;
     --radius: 14px;
     --shadow: 0 1px 3px rgba(22,24,31,.06), 0 8px 24px rgba(22,24,31,.07);
+    --ink-fixed: #16181f;
+    --cream-fixed: #faf8f4;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -52,7 +58,7 @@
 
   /* ── Hero ─────────────────────────────── */
   .hero {
-    background: var(--ink);
+    background: var(--ink-fixed);
     color: #f5f2ea;
     padding: 5rem 1.5rem 4.5rem;
     position: relative;
@@ -113,7 +119,7 @@
   .stage-num {
     font-family: "Fraunces", serif;
     font-size: 3.2rem; font-weight: 900; line-height: 1;
-    -webkit-text-stroke: 1.5px var(--ink);
+    -webkit-text-stroke: 1.5px var(--ink-fixed);
     color: transparent;
     opacity: .35;
     flex-shrink: 0;
@@ -157,7 +163,7 @@
     box-shadow: var(--shadow);
   }
   .callout .icon { font-size: 1.3rem; line-height: 1.5; }
-  .callout p { margin: 0; font-size: .95rem; }
+  .callout p { margin: 0; font-size: .95rem; color: #2a2d38; }
   .callout.tip   { background: var(--amber-soft); }
   .callout.warn  { background: var(--rose-soft); }
   .callout.idea  { background: var(--violet-soft); }
@@ -186,7 +192,7 @@
     position: absolute; left: 0; top: .1rem;
     width: 2rem; height: 2rem;
     border-radius: 50%;
-    background: var(--ink); color: var(--paper);
+    background: var(--ink-fixed); color: var(--cream-fixed);
     font-family: "Fraunces", serif; font-weight: 700; font-size: .95rem;
     display: flex; align-items: center; justify-content: center;
   }
@@ -202,7 +208,7 @@
 
   /* ── Prompt anatomy block ─────────────── */
   .prompt-block {
-    background: var(--ink);
+    background: var(--ink-fixed);
     border-radius: var(--radius);
     padding: 1.4rem 1.6rem;
     margin: 1.5rem 0;
@@ -231,7 +237,7 @@
   }
   table { width: 100%; border-collapse: collapse; font-size: .92rem; }
   th {
-    background: var(--ink); color: var(--paper);
+    background: var(--ink-fixed); color: var(--cream-fixed);
     text-align: left; padding: .75rem 1rem;
     font-weight: 600; font-size: .8rem;
     letter-spacing: .06em; text-transform: uppercase;
@@ -327,12 +333,19 @@
   }
   .site-nav .links a:hover, .site-nav .links a.active { color: #f0b27a; }
 </style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
 
 <nav class="site-nav">
   <div class="site-nav-inner">
     <a class="brand" href="index.html">🎬 AI Video Tutorial</a>
+    <div class="nav-controls">
+      <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    </div>
     <div class="links">
       <a href="index.html">Hub</a>
       <a href="tutorial.html" class="active">Tutorial</a>
@@ -353,7 +366,7 @@
   </div>
 </header>
 
-<div class="container">
+<div class="container" id="main">
 
 <section>
   <div class="section-head">
@@ -614,5 +627,6 @@
 </footer>
 
 </div>
+<script src="assets/site.js" defer></script>
 </body>
 </html>

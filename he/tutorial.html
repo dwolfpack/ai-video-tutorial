@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{var t=localStorage.getItem('ai-video-tutorial-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <title>יצירת סרטוני AI באיכות גבוהה — מדריך מעשי</title>
 <meta name="description" content="מדריך מעשי: שילוב Claude, Google Gemini (Veo) ו-Meta AI לצינור עבודה אחד ליצירת סרטוני AI באיכות גבוהה.">
 <meta property="og:title" content="יצירת סרטוני AI באיכות גבוהה — מדריך מעשי">
@@ -10,6 +11,9 @@
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://dwolfpack.github.io/ai-video-tutorial/assets/og-image.svg">
 <meta property="og:url" content="https://dwolfpack.github.io/ai-video-tutorial/he/tutorial.html">
+<link rel="canonical" href="https://dwolfpack.github.io/ai-video-tutorial/he/tutorial.html">
+<link rel="alternate" hreflang="he" href="https://dwolfpack.github.io/ai-video-tutorial/he/tutorial.html">
+<link rel="alternate" hreflang="en" href="https://dwolfpack.github.io/ai-video-tutorial/tutorial.html">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +25,7 @@
     --violet: #6c5ce7; --violet-soft: #edeafd; --teal: #0d9488; --teal-soft: #dcf5f1;
     --rose: #e11d48; --rose-soft: #fde8ed; --blue: #2563eb; --blue-soft: #e3ecfd;
     --radius: 14px; --shadow: 0 1px 3px rgba(22,24,31,.06), 0 8px 24px rgba(22,24,31,.07);
+    --ink-fixed: #16181f; --cream-fixed: #faf8f4;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -37,7 +42,7 @@
   .site-nav .links a { color: rgba(245,242,234,.68); border-bottom: none; font-size: .85rem; font-weight: 500; }
   .site-nav .links a:hover, .site-nav .links a.active { color: #f0b27a; }
 
-  .hero { background: var(--ink); color: #f5f2ea; padding: 5rem 1.5rem 4.5rem; position: relative; overflow: hidden; }
+  .hero { background: var(--ink-fixed); color: #f5f2ea; padding: 5rem 1.5rem 4.5rem; position: relative; overflow: hidden; }
   .hero::before {
     content: ""; position: absolute; inset: 0;
     background:
@@ -63,7 +68,7 @@
   .container { max-width: 880px; margin: 0 auto; padding: 0 1.5rem 5rem; }
   section { margin-top: 4.2rem; }
   .section-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.4rem; }
-  .stage-num { font-family: "Frank Ruhl Libre", serif; font-size: 3rem; font-weight: 900; line-height: 1; -webkit-text-stroke: 1.5px var(--ink); color: transparent; opacity: .35; flex-shrink: 0; }
+  .stage-num { font-family: "Frank Ruhl Libre", serif; font-size: 3rem; font-weight: 900; line-height: 1; -webkit-text-stroke: 1.5px var(--ink-fixed); color: transparent; opacity: .35; flex-shrink: 0; }
   h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; margin: 0; }
   h2 .tagline { display: block; font-family: "Heebo"; font-size: .9rem; font-weight: 500; color: var(--ink-soft); margin-top: .3rem; }
   h3 { font-size: 1.12rem; font-weight: 700; margin: 1.8rem 0 .6rem; }
@@ -78,7 +83,7 @@
 
   .callout { border-radius: var(--radius); padding: 1.15rem 1.4rem; margin: 1.5rem 0; display: flex; gap: .9rem; box-shadow: var(--shadow); }
   .callout .icon { font-size: 1.3rem; line-height: 1.5; }
-  .callout p { margin: 0; font-size: .95rem; }
+  .callout p { margin: 0; font-size: .95rem; color: #2a2d38; }
   .callout.tip { background: var(--amber-soft); }
   .callout.idea { background: var(--violet-soft); }
 
@@ -86,21 +91,21 @@
 
   ol.steps { counter-reset: step; list-style: none; padding: 0; margin: 1rem 0; }
   ol.steps > li { counter-increment: step; position: relative; padding: 0 3rem 1rem 0; margin: 0; }
-  ol.steps > li::before { content: counter(step); position: absolute; right: 0; top: .1rem; width: 2rem; height: 2rem; border-radius: 50%; background: var(--ink); color: var(--paper); font-family: "Frank Ruhl Libre", serif; font-weight: 700; font-size: .95rem; display: flex; align-items: center; justify-content: center; }
+  ol.steps > li::before { content: counter(step); position: absolute; right: 0; top: .1rem; width: 2rem; height: 2rem; border-radius: 50%; background: var(--ink-fixed); color: var(--cream-fixed); font-family: "Frank Ruhl Libre", serif; font-weight: 700; font-size: .95rem; display: flex; align-items: center; justify-content: center; }
   ol.steps > li:not(:last-child)::after { content: ""; position: absolute; right: calc(1rem - 1px); top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
 
   ul { padding-right: 1.3rem; padding-left: 0; }
   ul li { margin-bottom: .5rem; }
   li::marker { color: var(--amber); }
 
-  .prompt-block { background: var(--ink); border-radius: var(--radius); padding: 1.4rem 1.6rem; margin: 1.5rem 0; box-shadow: var(--shadow); overflow-x: auto; direction: ltr; text-align: left; }
+  .prompt-block { background: var(--ink-fixed); border-radius: var(--radius); padding: 1.4rem 1.6rem; margin: 1.5rem 0; box-shadow: var(--shadow); overflow-x: auto; direction: ltr; text-align: left; }
   .prompt-block .row { font-family: "JetBrains Mono", monospace; font-size: .83rem; line-height: 1.9; color: #d8dce8; white-space: nowrap; }
   .prompt-block .label { color: #f0b27a; font-weight: 500; }
   .prompt-block .neg .label { color: #ff8fa8; }
 
   .table-wrap { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; overflow-x: auto; margin: 1.5rem 0; }
   table { width: 100%; border-collapse: collapse; font-size: .9rem; }
-  th { background: var(--ink); color: var(--paper); text-align: right; padding: .75rem 1rem; font-weight: 600; font-size: .78rem; }
+  th { background: var(--ink-fixed); color: var(--cream-fixed); text-align: right; padding: .75rem 1rem; font-weight: 600; font-size: .78rem; }
   td { padding: .8rem 1rem; border-top: 1px solid var(--line); vertical-align: top; }
   tr:nth-child(even) td { background: var(--paper-warm); }
   td.tool { font-weight: 600; white-space: nowrap; }
@@ -134,12 +139,19 @@
   footer { margin-top: 4rem; padding-top: 1.6rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--ink-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
   code { font-family: "JetBrains Mono", monospace; font-size: .85em; background: var(--paper-warm); padding: .1em .4em; border-radius: 5px; direction: ltr; display: inline-block; }
 </style>
+<link rel="stylesheet" href="../assets/site.css">
 </head>
 <body>
+
+<a class="skip-link" href="#main">דלג לתוכן</a>
 
 <nav class="site-nav">
   <div class="site-nav-inner">
     <a class="brand" href="../index.html">🎬 מדריך סרטוני AI</a>
+    <div class="nav-controls">
+      <button class="theme-toggle" aria-label="החלף מצב כהה/בהיר">🌙</button>
+      <button class="nav-toggle" aria-label="פתח תפריט" aria-expanded="false">☰</button>
+    </div>
     <div class="links">
       <a href="../index.html">בית</a>
       <a href="tutorial.html" class="active">מדריך</a>
@@ -160,7 +172,7 @@
   </div>
 </header>
 
-<div class="container">
+<div class="container" id="main">
 
 <section>
   <div class="section-head">
@@ -418,5 +430,6 @@
 </footer>
 
 </div>
+<script src="../assets/site.js" defer></script>
 </body>
 </html>

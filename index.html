@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){try{var t=localStorage.getItem('ai-video-tutorial-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <title>AI Video Tutorial Hub — High-Resolution AI Video Creation</title>
 <meta name="description" content="A tutorial hub for creating high-resolution AI videos with Claude, Google Gemini (Veo), and Meta AI: guide, hands-on workshop, and prompt library.">
 <meta property="og:title" content="AI Video Tutorial Hub">
@@ -11,6 +12,7 @@
 <meta property="og:image" content="https://dwolfpack.github.io/ai-video-tutorial/assets/og-image.svg">
 <meta property="og:url" content="https://dwolfpack.github.io/ai-video-tutorial/">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://dwolfpack.github.io/ai-video-tutorial/">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,6 +37,8 @@
     --blue-soft: #e3ecfd;
     --radius: 14px;
     --shadow: 0 1px 3px rgba(22,24,31,.06), 0 8px 24px rgba(22,24,31,.07);
+    --ink-fixed: #16181f;
+    --cream-fixed: #faf8f4;
   }
   * { box-sizing: border-box; }
   body {
@@ -64,7 +68,7 @@
   .site-nav .links a:hover, .site-nav .links a.active { color: #f0b27a; }
 
   .hero {
-    background: var(--ink); color: #f5f2ea;
+    background: var(--ink-fixed); color: #f5f2ea;
     padding: 5.5rem 1.5rem 5rem; position: relative; overflow: hidden; text-align: center;
   }
   .hero::before {
@@ -113,12 +117,19 @@
     border-top: 1px solid var(--line);
   }
 </style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
+
+<a class="skip-link" href="#main">Skip to content</a>
 
 <nav class="site-nav">
   <div class="site-nav-inner">
     <a class="brand" href="index.html">🎬 AI Video Tutorial</a>
+    <div class="nav-controls">
+      <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    </div>
     <div class="links">
       <a href="index.html" class="active">Hub</a>
       <a href="tutorial.html">Tutorial</a>
@@ -137,7 +148,7 @@
   </div>
 </header>
 
-<div class="container">
+<div class="container" id="main">
   <div class="section-title">
     <h2>Start here</h2>
     <p>Three ways to work through the material, depending on what you need right now.</p>
@@ -171,5 +182,6 @@
   Compiled July 2026 · <a href="https://github.com/dwolfpack/ai-video-tutorial">Source on GitHub</a>
 </footer>
 
+<script src="assets/site.js" defer></script>
 </body>
 </html>
