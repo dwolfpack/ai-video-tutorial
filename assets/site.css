@@ -1,0 +1,104 @@
+/* Shared enhancement layer — loaded AFTER each page's own <style> block so
+   these overrides win. Adds: dark mode, mobile nav, focus states, a11y. */
+
+/* ── Dark mode palette ────────────────────────────────────────────────
+   Pages keep --ink-fixed/--cream-fixed constant (hero, nav, table header,
+   step circles, prompt terminal blocks) so those "always-dark" chips don't
+   change with theme. Everything else (--paper, --card, --ink, --line, …)
+   flips together so text-on-surface pairs stay consistent. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14161d;
+    --paper-warm: #1b1e27;
+    --card: #1f232e;
+    --line: #333a4d;
+    --ink: #e8ecf4;
+    --ink-soft: #9aa7bd;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #14161d;
+  --paper-warm: #1b1e27;
+  --card: #1f232e;
+  --line: #333a4d;
+  --ink: #e8ecf4;
+  --ink-soft: #9aa7bd;
+}
+:root[data-theme="light"] {
+  --paper: #faf8f4;
+  --paper-warm: #f3efe7;
+  --card: #ffffff;
+  --line: #e4dfd4;
+  --ink: #16181f;
+  --ink-soft: #4a4f5c;
+}
+
+/* ── Skip link ────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute; top: -3rem; left: 1rem; z-index: 200;
+  background: var(--ink-fixed, #16181f); color: var(--cream-fixed, #faf8f4);
+  padding: .6rem 1rem; border-radius: 8px; font-size: .85rem; font-weight: 600;
+  transition: top .15s;
+}
+.skip-link:focus { top: 1rem; }
+
+/* ── Focus visibility (a11y) ──────────────────────────────────────── */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid #f0b27a; outline-offset: 2px; border-radius: 4px;
+}
+
+/* ── Nav: theme toggle + mobile hamburger ────────────────────────── */
+.site-nav-inner { position: relative; }
+.nav-controls { display: flex; align-items: center; gap: .5rem; }
+.theme-toggle, .nav-toggle {
+  background: none; border: 1px solid rgba(255,255,255,.18);
+  color: rgba(245,242,234,.85); border-radius: 8px;
+  width: 2.1rem; height: 2.1rem; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+}
+.theme-toggle:hover, .nav-toggle:hover { border-color: #f0b27a; color: #f0b27a; }
+.nav-toggle { display: none; }
+
+@media (max-width: 640px) {
+  .nav-toggle { display: flex; }
+  .site-nav .links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    order: 3;
+    padding-top: .6rem;
+    gap: .8rem;
+  }
+  .site-nav .links.open { display: flex; }
+  .site-nav-inner { flex-wrap: wrap; }
+}
+
+/* ── Back-to-top button (injected by site.js) ────────────────────── */
+#back-to-top {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 60;
+  width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  background: var(--ink-fixed, #16181f); color: var(--cream-fixed, #faf8f4);
+  border: none; font-size: 1.1rem; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,.25);
+  opacity: 0; pointer-events: none; transform: translateY(8px);
+  transition: opacity .2s, transform .2s;
+}
+#back-to-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+html[dir="rtl"] #back-to-top { right: auto; left: 1.5rem; }
+
+/* ── Autosave badge (workshop) ────────────────────────────────────── */
+.autosave-note {
+  font-size: .78rem; color: var(--ink-soft); text-align: center; margin-top: .6rem;
+}
+
+@media print {
+  .site-nav, #back-to-top, .skip-link { display: none !important; }
+}
+
+/* ── Small-screen refinements shared across pages ────────────────── */
+@media (max-width: 480px) {
+  .pipeline { grid-template-columns: 1fr; }
+  .split { grid-template-columns: 1fr; }
+  .timeline .t-row { grid-template-columns: 1fr; }
+}

@@ -13,6 +13,15 @@ A practical tutorial hub for creating high-resolution AI videos using Claude, Go
 - [he/tutorial.html](he/tutorial.html) — Hebrew (RTL) translation of the tutorial
 - [ai-video-creation-tutorial.md](ai-video-creation-tutorial.md) — markdown source of the original tutorial
 
+## Frontend features
+
+- **Dark mode** — follows the OS `prefers-color-scheme` by default; the 🌙/☀️ toggle in the nav overrides it and persists via `localStorage`.
+- **Mobile navigation** — a hamburger menu appears under 640px (`assets/site.css` + `assets/site.js`).
+- **Accessibility** — skip-to-content link on every page, visible focus rings, `aria-pressed`/`aria-expanded` on interactive controls.
+- **Workshop autosave** — form inputs on `workshop.html` save to `localStorage` as you type and restore on reload.
+- **SEO** — canonical links, Open Graph tags, `hreflang` cross-links between the English and Hebrew tutorials, `robots.txt`, `sitemap.xml`.
+- Shared behavior lives in `assets/site.css` / `assets/site.js`, loaded by every page after its own inline `<style>` block so page-specific styles stay authoritative and the shared layer only adds new capability.
+
 ## Notes
 
 - All pages are self-contained static HTML (no build step) — safe to open locally or serve via GitHub Pages.
