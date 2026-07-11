@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>יצירת סרטוני AI באיכות גבוהה — מדריך מעשי</title>
+<meta name="description" content="מדריך מעשי: שילוב Claude, Google Gemini (Veo) ו-Meta AI לצינור עבודה אחד ליצירת סרטוני AI באיכות גבוהה.">
+<meta property="og:title" content="יצירת סרטוני AI באיכות גבוהה — מדריך מעשי">
+<meta property="og:description" content="שילוב Claude, Gemini/Veo ו-Meta AI לצינור הפקה אחד — מרעיון ועד 4K מלוטש.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://dwolfpack.github.io/ai-video-tutorial/assets/og-image.svg">
+<meta property="og:url" content="https://dwolfpack.github.io/ai-video-tutorial/he/tutorial.html">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16181f; --ink-soft: #4a4f5c; --paper: #faf8f4; --paper-warm: #f3efe7;
+    --card: #ffffff; --line: #e4dfd4; --amber: #e8842c; --amber-soft: #fdeedd;
+    --violet: #6c5ce7; --violet-soft: #edeafd; --teal: #0d9488; --teal-soft: #dcf5f1;
+    --rose: #e11d48; --rose-soft: #fde8ed; --blue: #2563eb; --blue-soft: #e3ecfd;
+    --radius: 14px; --shadow: 0 1px 3px rgba(22,24,31,.06), 0 8px 24px rgba(22,24,31,.07);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: "Heebo", system-ui, sans-serif; background: var(--paper); color: var(--ink); line-height: 1.75; font-size: 16.5px; }
+  h1, h2, h3 { font-family: "Frank Ruhl Libre", Georgia, serif; line-height: 1.3; }
+  a { color: var(--blue); text-decoration: none; border-bottom: 1px solid rgba(37,99,235,.3); }
+  a:hover { border-bottom-color: var(--blue); }
+  .ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+  .site-nav { background: rgba(22,24,31,.94); backdrop-filter: blur(6px); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .site-nav-inner { max-width: 880px; margin: 0 auto; padding: .8rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .6rem; }
+  .site-nav .brand { color: #f5f2ea; font-family: "Frank Ruhl Libre", serif; font-weight: 700; font-size: .95rem; border-bottom: none; }
+  .site-nav .links { display: flex; gap: 1.3rem; flex-wrap: wrap; }
+  .site-nav .links a { color: rgba(245,242,234,.68); border-bottom: none; font-size: .85rem; font-weight: 500; }
+  .site-nav .links a:hover, .site-nav .links a.active { color: #f0b27a; }
+
+  .hero { background: var(--ink); color: #f5f2ea; padding: 5rem 1.5rem 4.5rem; position: relative; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 15% 10%, rgba(108,92,231,.35), transparent 60%),
+      radial-gradient(ellipse 50% 70% at 90% 90%, rgba(232,132,44,.28), transparent 60%),
+      radial-gradient(ellipse 40% 50% at 40% 100%, rgba(13,148,136,.22), transparent 60%);
+  }
+  .hero-inner { max-width: 880px; margin: 0 auto; position: relative; }
+  .hero .kicker { display: inline-block; font-size: .78rem; font-weight: 600; letter-spacing: .05em; color: #f0b27a; border: 1px solid rgba(240,178,122,.4); border-radius: 999px; padding: .35rem 1rem; margin-bottom: 1.4rem; }
+  .hero h1 { font-size: clamp(2.1rem, 5.5vw, 3.3rem); font-weight: 900; margin: 0 0 1.1rem; }
+  .hero h1 em { font-style: normal; color: #f0b27a; }
+  .hero .lede { font-size: 1.12rem; color: rgba(245,242,234,.75); max-width: 620px; margin: 0 0 2rem; }
+  .hero .meta { font-size: .85rem; color: rgba(245,242,234,.5); }
+
+  .filmstrip { display: flex; gap: 6px; margin-top: 2.2rem; }
+  .filmstrip span { height: 44px; flex: 1; max-width: 88px; border-radius: 6px; border: 1px solid rgba(255,255,255,.15); }
+  .filmstrip span:nth-child(1) { background: linear-gradient(135deg,#6c5ce7,#4834b8); }
+  .filmstrip span:nth-child(2) { background: linear-gradient(135deg,#e8842c,#c05f10); }
+  .filmstrip span:nth-child(3) { background: linear-gradient(135deg,#0d9488,#0a6b62); }
+  .filmstrip span:nth-child(4) { background: linear-gradient(135deg,#2563eb,#1a45a8); }
+  .filmstrip span:nth-child(5) { background: linear-gradient(135deg,#e11d48,#a31232); }
+
+  .container { max-width: 880px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+  section { margin-top: 4.2rem; }
+  .section-head { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.4rem; }
+  .stage-num { font-family: "Frank Ruhl Libre", serif; font-size: 3rem; font-weight: 900; line-height: 1; -webkit-text-stroke: 1.5px var(--ink); color: transparent; opacity: .35; flex-shrink: 0; }
+  h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 700; margin: 0; }
+  h2 .tagline { display: block; font-family: "Heebo"; font-size: .9rem; font-weight: 500; color: var(--ink-soft); margin-top: .3rem; }
+  h3 { font-size: 1.12rem; font-weight: 700; margin: 1.8rem 0 .6rem; }
+
+  .pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: .7rem; margin: 2rem 0 .8rem; }
+  .pipe-step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem .9rem .9rem; box-shadow: var(--shadow); position: relative; border-top: 4px solid var(--c, var(--violet)); }
+  .pipe-step .n { font-family: "JetBrains Mono", monospace; font-size: .68rem; font-weight: 500; color: var(--c); }
+  .pipe-step .t { font-weight: 700; font-size: .93rem; margin: .15rem 0 .25rem; }
+  .pipe-step .d { font-size: .78rem; color: var(--ink-soft); line-height: 1.5; }
+  .pipe-caption { text-align: center; font-size: .85rem; color: var(--ink-soft); font-style: italic; }
+  @media (max-width: 720px) { .pipeline { grid-template-columns: 1fr 1fr; } }
+
+  .callout { border-radius: var(--radius); padding: 1.15rem 1.4rem; margin: 1.5rem 0; display: flex; gap: .9rem; box-shadow: var(--shadow); }
+  .callout .icon { font-size: 1.3rem; line-height: 1.5; }
+  .callout p { margin: 0; font-size: .95rem; }
+  .callout.tip { background: var(--amber-soft); }
+  .callout.idea { background: var(--violet-soft); }
+
+  blockquote { margin: 1.5rem 0; padding: 1.2rem 1.5rem; background: var(--card); border-right: 4px solid var(--violet); border-radius: var(--radius) 0 0 var(--radius); box-shadow: var(--shadow); font-style: normal; color: var(--ink-soft); font-size: .97rem; }
+
+  ol.steps { counter-reset: step; list-style: none; padding: 0; margin: 1rem 0; }
+  ol.steps > li { counter-increment: step; position: relative; padding: 0 3rem 1rem 0; margin: 0; }
+  ol.steps > li::before { content: counter(step); position: absolute; right: 0; top: .1rem; width: 2rem; height: 2rem; border-radius: 50%; background: var(--ink); color: var(--paper); font-family: "Frank Ruhl Libre", serif; font-weight: 700; font-size: .95rem; display: flex; align-items: center; justify-content: center; }
+  ol.steps > li:not(:last-child)::after { content: ""; position: absolute; right: calc(1rem - 1px); top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
+
+  ul { padding-right: 1.3rem; padding-left: 0; }
+  ul li { margin-bottom: .5rem; }
+  li::marker { color: var(--amber); }
+
+  .prompt-block { background: var(--ink); border-radius: var(--radius); padding: 1.4rem 1.6rem; margin: 1.5rem 0; box-shadow: var(--shadow); overflow-x: auto; direction: ltr; text-align: left; }
+  .prompt-block .row { font-family: "JetBrains Mono", monospace; font-size: .83rem; line-height: 1.9; color: #d8dce8; white-space: nowrap; }
+  .prompt-block .label { color: #f0b27a; font-weight: 500; }
+  .prompt-block .neg .label { color: #ff8fa8; }
+
+  .table-wrap { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; overflow-x: auto; margin: 1.5rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th { background: var(--ink); color: var(--paper); text-align: right; padding: .75rem 1rem; font-weight: 600; font-size: .78rem; }
+  td { padding: .8rem 1rem; border-top: 1px solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--paper-warm); }
+  td.tool { font-weight: 600; white-space: nowrap; }
+  .badge { display: inline-block; font-size: .72rem; font-weight: 600; padding: .15rem .6rem; border-radius: 999px; white-space: nowrap; }
+  .badge.free { background: var(--teal-soft); color: var(--teal); }
+  .badge.paid { background: var(--blue-soft); color: var(--blue); }
+  .badge.warn { background: var(--rose-soft); color: var(--rose); }
+  .badge.hero-b { background: var(--amber-soft); color: #b05e12; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+  .split .half { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.3rem; box-shadow: var(--shadow); font-size: .93rem; }
+  .split .half h4 { margin: 0 0 .5rem; font-size: .95rem; }
+  .split .yes h4 { color: var(--teal); }
+  .split .no h4 { color: var(--rose); }
+  @media (max-width: 600px) { .split { grid-template-columns: 1fr; } }
+
+  .timeline { margin: 1.5rem 0; }
+  .timeline .t-row { display: grid; grid-template-columns: 1fr 90px; gap: 1rem; align-items: start; padding: .8rem 0; border-bottom: 1px dashed var(--line); }
+  .timeline .t-row:last-child { border-bottom: none; }
+  .timeline .t-time { font-family: "JetBrains Mono", monospace; font-size: .78rem; color: var(--ink-soft); background: var(--paper-warm); border-radius: 8px; padding: .3rem .6rem; text-align: center; }
+  .timeline .t-body strong { color: var(--ink); }
+  .timeline .t-body { font-size: .95rem; }
+
+  .reading { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; padding: 0; list-style: none; margin: 1.5rem 0 0; }
+  .reading li { margin: 0; }
+  .reading a { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: .75rem 1rem; font-size: .85rem; color: var(--ink); border-bottom: 1px solid var(--line); }
+  .reading a:hover { border-color: var(--amber); }
+  .reading a .src { display: block; font-size: .74rem; color: var(--ink-soft); margin-top: .15rem; direction: ltr; text-align: right; }
+  @media (max-width: 600px) { .reading { grid-template-columns: 1fr; } }
+
+  footer { margin-top: 4rem; padding-top: 1.6rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--ink-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+  code { font-family: "JetBrains Mono", monospace; font-size: .85em; background: var(--paper-warm); padding: .1em .4em; border-radius: 5px; direction: ltr; display: inline-block; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a class="brand" href="../index.html">🎬 מדריך סרטוני AI</a>
+    <div class="links">
+      <a href="../index.html">בית</a>
+      <a href="tutorial.html" class="active">מדריך</a>
+      <a href="../workshop.html">Workshop</a>
+      <a href="../prompts.html">Prompt Library</a>
+      <a href="../tutorial.html">English</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">מדריך מעשי · יולי 2026</span>
+    <h1>יצירת <em>סרטוני AI</em> באיכות גבוהה</h1>
+    <p class="lede">איך לשלב בין Claude, Google Gemini (Veo) ו-Meta AI, יחד עם כמה כלי גימור, לצינור הפקה אחד — מרעיון ועד 4K מלוטש.</p>
+    <p class="meta">Claude מביים · Veo מצלם · Meta AI מפרסם ברשתות · Topaz מגמר</p>
+    <div class="filmstrip" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<div class="container">
+
+<section>
+  <div class="section-head">
+    <h2>הרעיון המרכזי: צינור עבודה, לא כלי אחד</h2>
+  </div>
+  <p>אין כלי AI יחיד שלוקח אתכם מ"רעיון" ל"סרטון 4K מלוטש". יוצרים שמגיעים לתוצאות טובות מתייחסים לכך כאל <strong>צינור הפקה</strong>, שבו כל כלי AI ממלא את התפקיד שהוא הכי טוב בו:</p>
+
+  <div class="pipeline">
+    <div class="pipe-step" style="--c:var(--violet)">
+      <span class="n">שלב 1</span>
+      <div class="t">טרום-הפקה</div>
+      <div class="d">Claude — תסריטים, סטוריבורד, פרומפטים לכל שוט</div>
+    </div>
+    <div class="pipe-step" style="--c:var(--blue)">
+      <span class="n">שלב 2</span>
+      <div class="t">חידוד פרומפטים</div>
+      <div class="d">Claude / Gemini — meta-prompting</div>
+    </div>
+    <div class="pipe-step" style="--c:var(--amber)">
+      <span class="n">שלב 3</span>
+      <div class="t">יצירת הווידאו</div>
+      <div class="d">Veo 3.1, Meta AI, Runway, Kling</div>
+    </div>
+    <div class="pipe-step" style="--c:var(--teal)">
+      <span class="n">שלב 4</span>
+      <div class="t">אודיו</div>
+      <div class="d">אודיו טבעי של Veo, ElevenLabs</div>
+    </div>
+    <div class="pipe-step" style="--c:var(--rose)">
+      <span class="n">שלב 5</span>
+      <div class="t">גימור</div>
+      <div class="d">CapCut / Resolve + שדרוג רזולוציה ב-Topaz</div>
+    </div>
+  </div>
+  <p class="pipe-caption">Claude הוא הבמאי והתסריטאי שלכם · Gemini/Veo הוא צוות הצילום · Meta AI הוא הסטודיו המהיר לרשתות חברתיות · Topaz הוא מעבדת הגימור</p>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="stage-num">01</span>
+    <h2>Claude כבמאי
+      <span class="tagline">תסריט ← סטוריבורד ← פרומפטים לכל שוט</span>
+    </h2>
+  </div>
+  <p>Claude לא יוצר וידאו בעצמו, אבל הוא משפר משמעותית כל מה שמודלי הווידאו מייצרים. מודלי וידאו מייצרים קליפים של 4–8 שניות, ולכן התפקיד שלכם הוא לפרק את הסיפור לשוטים.</p>
+
+  <h3>תהליך העבודה</h3>
+  <ol class="steps">
+    <li><strong>תדרכו את Claude</strong> על הסרטון: קהל יעד, אורך, טון, מסר.</li>
+    <li><strong>בקשו תסריט</strong> עם "קרס" ב-3 השניות הראשונות (לרשתות חברתיות) או קשת נרטיבית (לתכנים ארוכים יותר).</li>
+    <li><strong>בקשו רשימת שוטים:</strong> "פרק את זה לשוטים של 8 שניות. עבור כל שוט, כתוב פרומפט מפורט ליצירת וידאו הכולל: נושא, פעולה, תנועת מצלמה, תאורה, סגנון ורמזי אודיו."</li>
+    <li><strong>בקשו "תדריך עקביות":</strong> תיאור קבוע של הדמות/הסביבה (לבוש, צבעים, סביבה) שמודבק בתוך <em>כל</em> פרומפט שוט — זה הטריק מספר 1 לשמירה על עקביות חזותית בין קליפים.</li>
+  </ol>
+
+  <h3>דוגמת פרומפט ל-Claude</h3>
+  <blockquote>"אני מכין סרטון הסברה של 60 שניות על [נושא] עבור [קהל יעד]. כתוב: (1) תסריט עם קריינות, (2) רשימת שוטים של סצנות בנות 8 שניות, (3) עבור כל סצנה, פרומפט ל-Veo 3.1 עם תנועת מצלמה, תאורה וסגנון, ו-(4) פסקת 'תדריך דמות/סגנון' שאשתמש בה שוב בכל פרומפט לשמירה על עקביות חזותית."</blockquote>
+
+  <div class="callout idea">
+    <span class="icon">💡</span>
+    <p>ב-Claude Code קיימים אפילו כישורי סטוריבורד ייעודיים — למשל הפרויקט הפתוח <a href="https://github.com/aicontentskills/ai-video-storyboard-skill">ai-video-storyboard-skill</a> — ההופכים תדרוך לתוכנית הפקה מלאה מרובת-שוטים.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="stage-num">02</span>
+    <h2>Google Gemini + Veo 3.1
+      <span class="tagline">מחולל הרזולוציה הגבוהה המרכזי שלכם</span>
+    </h2>
+  </div>
+  <p><strong>Veo 3.1 הוא כרגע הכלי הכולל-חזק ביותר:</strong> הכי טוב בהתאמה לפרומפט, אודיו מסונכרן טבעי, ופלט של עד <strong>4K</strong> לרוחב או לאורך.</p>
+
+  <h3>איך להשתמש בו</h3>
+  <ol class="steps">
+    <li>פתחו את <strong>Gemini</strong> (gemini.google.com) — וידאו דורש מנוי Google AI Pro/Ultra — או <strong>Google AI Studio</strong> (aistudio.google.com) לשליטה מתקדמת יותר.</li>
+    <li>לחצו על <strong>סמל הכלים</strong> בשורת הקלט ובחרו וידאו, או בחרו את מודל Veo ב-AI Studio.</li>
+    <li>בחרו <strong>טקסט לווידאו</strong> (תיאור הסצנה) או <strong>תמונה לווידאו</strong> (העלאת תמונת רפרנס ותיאור התנועה — עוזר לעקביות דמויות).</li>
+    <li>הגדרות: <strong>1080p או 4K</strong>, יחס 16:9 או 9:16, אורך קליפ 4/6/8 שניות.</li>
+    <li>הדביקו את פרומפט השוט שכתב Claude, צרו, בדקו, שכללו.</li>
+  </ol>
+
+  <h3>Meta-prompting — הטכניקה המומלצת של גוגל עצמה</h3>
+  <p>לפני היצירה, בקשו מ-Gemini עצמו: <em>"כתוב פרומפט מפורט ל-Veo לשוט בן 8 שניות של [סצנה], תוך פירוט מצלמה, תאורה וסגנון."</em> גוגל פרסמה <a href="https://blog.google/products-and-platforms/products/gemini/meta-prompting-veo-gemini-tips/">טיפים רשמיים בנושא</a>. אפשר לעשות את אותו הצעד ב-Claude — הוא נוטה לייצר שפה קולנועית עשירה יותר.</p>
+
+  <h3>אנטומיה של פרומפט Veo חזק</h3>
+  <div class="prompt-block">
+    <div class="row"><span class="label">[Shot + camera]</span>  Slow dolly-in, low angle.</div>
+    <div class="row"><span class="label">[Subject]</span>        A woman in her 40s, silver-streaked hair, navy blazer <em>(← from your style bible)</em>.</div>
+    <div class="row"><span class="label">[Action]</span>         She sketches a diagram on a glass whiteboard, then turns to camera and smiles.</div>
+    <div class="row"><span class="label">[Setting + light]</span> Modern office at golden hour, warm rim lighting, soft shadows.</div>
+    <div class="row"><span class="label">[Style]</span>          Cinematic, shallow depth of field, 35mm film look.</div>
+    <div class="row"><span class="label">[Audio]</span>          Quiet office ambience, marker squeaking on glass.</div>
+    <div class="row neg"><span class="label">[Negative]</span>       no text overlays, no flicker, no blur.</div>
+  </div>
+  <p style="font-size:.85rem;color:var(--ink-soft);font-style:italic">שימו לב: הפרומפט עצמו נכתב באנגלית — רוב מודלי הווידאו מגיבים הכי טוב לפרומפטים באנגלית, גם אם התדרוך שלכם ל-Claude יכול להיות בעברית.</p>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="stage-num">03</span>
+    <h2>Meta AI
+      <span class="tagline">מהיר, חינמי, מכוון לרשתות חברתיות</span>
+    </h2>
+  </div>
+  <p>הכלים של Meta הם השכבה ה"סטודיו-מהיר" — תקרה נמוכה יותר מ-Veo, אבל חינמיים ובנויים להפצה ברשתות חברתיות.</p>
+  <ul>
+    <li><strong>מחולל הווידאו של Meta AI</strong> (<a href="https://www.meta.ai/ai-video-generator">meta.ai</a>): בחרו <strong>Create video</strong>, הזינו פרומפט, לחצו <strong>Animate</strong>. טוב להנפשת תמונות וקליפים סגנוניים קצרים.</li>
+    <li><strong>Vibes</strong> (יוצא לדרך ב-2026 כאפליקציה עצמאית): צרו או <strong>עשו רימיקס</strong> לסרטוני AI קצרים, הוסיפו מוזיקה וסגנונות, ולאחר מכן פרסמו ישירות ל-Reels וסטוריז באינסטגרם ופייסבוק.</li>
+    <li><strong>Movie Gen</strong> (HD ברזולוציית 1080p עם אודיו מסונכרן, עריכת וידאו לפי טקסט) עדיין בגדר פרויקט מחקר — לא זמין לציבור עדיין, אבל שווה לעקוב אחריו.</li>
+  </ul>
+
+  <div class="split">
+    <div class="half yes">
+      <h4>✓ השתמשו ב-Meta AI כאשר</h4>
+      תוכן מהיר לרשתות · רימיקס וניסוי בסגנונות · תקציב אפס
+    </div>
+    <div class="half no">
+      <h4>✗ דלגו עליו כאשר</h4>
+      אתם צריכים 4K · שליטה מדויקת בפרומפט · גימור מקצועי
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="stage-num">04</span>
+    <h2>איך מגיעים לרזולוציה גבוהה אמיתית
+      <span class="tagline">החלק שרוב המדריכים מדלגים עליו</span>
+    </h2>
+  </div>
+  <ol class="steps">
+    <li><strong>ייצרו ברזולוציה הטבעית הגבוהה ביותר.</strong> Veo 3.1 עובד באופן טבעי ב-1080p–4K; רוב המודלים האחרים (Meta AI, Kling, Pika) מגיעים לכל היותר ל-720p–1080p.</li>
+    <li><strong>כתבו פרומפט לבהירות.</strong> הוסיפו הנחיות שליליות — "no blur, no flicker, no grain" — ובקשו "sharp focus, high detail". זה עוזר בצורה מדידה.</li>
+    <li><strong>שדרוג רזולוציה (AI upscaling) בגימור.</strong> העבירו פלט של 720p/1080p דרך <strong>Topaz Video AI</strong> (תקן התעשייה), או דרך משדרגי ה-AI המובנים ב-<strong>DaVinci Resolve</strong> / <strong>Premiere Pro</strong>, כדי להגיע ל-4K נקי. זו פרקטיקה סטנדרטית בקרב יוצרי סרטי AI.</li>
+  </ol>
+  <div class="callout tip">
+    <span class="icon">⏱️</span>
+    <p><strong>שמרו על קליפים באורך 5–15 שניות.</strong> העקביות נשחקת מעבר ל-10 שניות בערך ברוב המודלים — עדיף לייצר יותר שוטים קצרים ולחתוך אותם יחד.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="stage-num">05</span>
+    <h2>הרכבה וגימור</h2>
+  </div>
+  <ol class="steps">
+    <li><strong>עריכה:</strong> חברו את השוטים ב-CapCut (פשוט) או ב-DaVinci Resolve (חינמי, מקצועי).</li>
+    <li><strong>קריינות:</strong> השתמשו באודיו הטבעי של Veo, או צרו קריינות מהתסריט של Claude עם ElevenLabs.</li>
+    <li><strong>מעבר צבע ועקביות:</strong> החילו LUT או פילטר אחד על כל הקליפים כך ששוטים מיצירות שונות יראו כמו סרט אחד.</li>
+    <li><strong>שדרגו רזולוציה בסוף</strong> (Topaz), ואז ייצאו ברזולוציית האספקה הרצויה.</li>
+  </ol>
+</section>
+
+<section>
+  <div class="section-head">
+    <h2>טבלת סיכום כלים <span class="tagline">אמצע 2026</span></h2>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>כלי</th><th>חוזק</th><th>רזולוציה</th><th>עלות</th></tr>
+      <tr>
+        <td class="tool">Google Veo 3.1</td>
+        <td>הכי טוב באופן כללי — אודיו טבעי, התאמה לפרומפט <span class="badge hero-b">בחירה מובילה</span></td>
+        <td>עד 4K</td>
+        <td><span class="badge paid">Google AI Pro/Ultra</span></td>
+      </tr>
+      <tr>
+        <td class="tool">Meta AI / Vibes</td>
+        <td>חינמי, מכוון לרשתות, רימיקס</td>
+        <td>~720p–1080p</td>
+        <td><span class="badge free">חינם</span></td>
+      </tr>
+      <tr>
+        <td class="tool">Runway Gen-4.5</td>
+        <td>שליטה מקצועית: תנועות מצלמה, motion brush, רפרנס דמות</td>
+        <td>1080p+</td>
+        <td><span class="badge paid">קרדיטים בתשלום</span></td>
+      </tr>
+      <tr>
+        <td class="tool">Kling 3.0</td>
+        <td>התמורה הטובה ביותר (כ-0.10$ לשנייה), מצב סטוריבורד מרובה-שוטים</td>
+        <td>1080p</td>
+        <td><span class="badge paid">קרדיטים זולים</span></td>
+      </tr>
+      <tr>
+        <td class="tool">Sora (OpenAI)</td>
+        <td>מופסק במהלך 2026 — אל תבנו עליו <span class="badge warn">להימנע</span></td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td class="tool">Claude</td>
+        <td>תסריטים, סטוריבורד, פרומפטים לשוטים, תדריכי עקביות</td>
+        <td>לא רלוונטי (טקסט)</td>
+        <td><span class="badge paid">מנוי Claude</span></td>
+      </tr>
+      <tr>
+        <td class="tool">Topaz Video AI</td>
+        <td>שדרוג ל-4K</td>
+        <td>4K+</td>
+        <td><span class="badge paid">רישיון חד-פעמי</span></td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <h2>דוגמה לתהליך עבודה מלא <span class="tagline">סרטון 60 שניות · כשעת עבודה</span></h2>
+  </div>
+  <div class="timeline">
+    <div class="t-row">
+      <div class="t-body"><strong>Claude</strong> — תדרוך ← תסריט ← 7 פרומפטי שוט + תדריך סגנון.</div>
+      <span class="t-time">10 דק'</span>
+    </div>
+    <div class="t-row">
+      <div class="t-body"><strong>Gemini / Veo</strong> — יצירת כל שוט ב-1080p, 2–3 גרסאות לשוט, בחירת הטובה ביותר.</div>
+      <span class="t-time">25 דק'</span>
+    </div>
+    <div class="t-row">
+      <div class="t-body"><strong>ElevenLabs</strong> — קריינות מהתסריט (אם לא משתמשים באודיו של Veo).</div>
+      <span class="t-time">5 דק'</span>
+    </div>
+    <div class="t-row">
+      <div class="t-body"><strong>CapCut / Resolve</strong> — הרכבה, הוספת כתוביות ומוזיקה.</div>
+      <span class="t-time">15 דק'</span>
+    </div>
+    <div class="t-row">
+      <div class="t-body"><strong>Topaz</strong> — שדרוג ל-4K, ייצוא.</div>
+      <span class="t-time">5 דק'</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <h2>מדריכים דומים וקריאה נוספת</h2>
+  </div>
+  <ul class="reading">
+    <li><a href="https://aiunpacking.com/guides/ai-video-generation-sora-runway-kling-veo/">AI Video Generation 2026: Creator Workflows<span class="src">AIUnpacking</span></a></li>
+    <li><a href="https://www.glbgpt.com/hub/how-to-use-veo-3-1-in-gemini/">How to Use Veo 3.1 in Gemini<span class="src">GLB GPT Hub</span></a></li>
+    <li><a href="https://blog.google/products-and-platforms/products/gemini/meta-prompting-veo-gemini-tips/">Official meta-prompting tips for Veo<span class="src">Google Blog</span></a></li>
+    <li><a href="https://ai.google.dev/gemini-api/docs/video">Video generation in the Gemini API<span class="src">Google AI docs</span></a></li>
+    <li><a href="https://ai.meta.com/blog/movie-gen-media-foundation-models-generative-ai-video/">Meta Movie Gen overview<span class="src">Meta AI Blog</span></a></li>
+    <li><a href="https://techcrunch.com/2026/02/05/meta-tests-a-standalone-app-for-its-ai-generated-vibes-videos/">Meta tests standalone Vibes app<span class="src">TechCrunch</span></a></li>
+    <li><a href="https://pixflow.net/blog/best-ai-video-generator/">Best AI Video Generators in 2026<span class="src">Pixflow</span></a></li>
+    <li><a href="https://russellsapalmer.medium.com/the-top-20-tools-apps-for-ai-filmmakers-1727e269c0eb">The Top 20 Tools &amp; Apps for AI Filmmakers<span class="src">Medium</span></a></li>
+  </ul>
+</section>
+
+<footer>
+  <span>נערך ביולי 2026</span>
+  <span>הגרסה המקורית באנגלית: <a href="../tutorial.html">tutorial.html</a></span>
+</footer>
+
+</div>
+</body>
+</html>

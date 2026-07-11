@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop — Build Your First AI Video</title>
+<meta name="description" content="A hands-on workshop: fill in the blanks to build your own AI video brief, style bible, and shot list using Claude and Veo.">
+<meta property="og:title" content="Workshop — Build Your First AI Video">
+<meta property="og:description" content="Fill-in-the-blank exercises to produce your own brief, style bible, and shot list.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://dwolfpack.github.io/ai-video-tutorial/assets/og-image.svg">
+<meta property="og:url" content="https://dwolfpack.github.io/ai-video-tutorial/workshop.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16181f; --ink-soft: #4a4f5c; --paper: #faf8f4; --paper-warm: #f3efe7;
+    --card: #ffffff; --line: #e4dfd4; --amber: #e8842c; --amber-soft: #fdeedd;
+    --violet: #6c5ce7; --violet-soft: #edeafd; --teal: #0d9488; --teal-soft: #dcf5f1;
+    --radius: 14px; --shadow: 0 1px 3px rgba(22,24,31,.06), 0 8px 24px rgba(22,24,31,.07);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 16.5px; }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.2; }
+  a { color: #2563eb; }
+
+  .site-nav { background: rgba(22,24,31,.94); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .site-nav-inner { max-width: 880px; margin: 0 auto; padding: .8rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .6rem; }
+  .site-nav .brand { color: #f5f2ea; font-family: "Fraunces", serif; font-weight: 700; font-size: .95rem; text-decoration: none; }
+  .site-nav .links { display: flex; gap: 1.3rem; flex-wrap: wrap; }
+  .site-nav .links a { color: rgba(245,242,234,.68); text-decoration: none; font-size: .85rem; font-weight: 500; }
+  .site-nav .links a:hover, .site-nav .links a.active { color: #f0b27a; }
+
+  .hero { background: var(--ink); color: #f5f2ea; padding: 4rem 1.5rem 3.5rem; text-align: center; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 900; margin: 0 0 .8rem; }
+  .hero p { color: rgba(245,242,234,.75); max-width: 560px; margin: 0 auto; }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  .exercise {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1.8rem 1.8rem; margin-bottom: 2rem; box-shadow: var(--shadow);
+    border-top: 4px solid var(--c, var(--violet));
+  }
+  .exercise .step-tag {
+    display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .08em;
+    color: var(--c, var(--violet)); text-transform: uppercase; margin-bottom: .4rem;
+  }
+  .exercise h2 { font-size: 1.35rem; margin: 0 0 .6rem; }
+  .exercise .instructions { color: var(--ink-soft); font-size: .95rem; margin-bottom: 1.1rem; }
+  label { display: block; font-size: .85rem; font-weight: 600; margin: 1rem 0 .35rem; color: var(--ink); }
+  input[type=text], textarea {
+    width: 100%; font-family: "Inter", sans-serif; font-size: .93rem;
+    border: 1px solid var(--line); border-radius: 8px; padding: .6rem .8rem;
+    background: var(--paper-warm); color: var(--ink); resize: vertical;
+  }
+  input[type=text]:focus, textarea:focus { outline: 2px solid var(--c, var(--violet)); outline-offset: 1px; }
+  .hint { font-size: .78rem; color: var(--ink-soft); margin-top: .3rem; font-style: italic; }
+
+  .assemble-btn {
+    margin-top: 1.3rem; display: inline-block; border: none; cursor: pointer;
+    background: var(--ink); color: var(--paper); font-family: "Inter", sans-serif;
+    font-weight: 600; font-size: .9rem; padding: .65rem 1.3rem; border-radius: 999px;
+  }
+  .assemble-btn:hover { background: #2a2d38; }
+
+  .output {
+    margin-top: 1.2rem; background: var(--ink); color: #d8dce8; border-radius: 10px;
+    padding: 1rem 1.2rem; font-family: "JetBrains Mono", monospace; font-size: .83rem;
+    white-space: pre-wrap; line-height: 1.7; display: none;
+  }
+  .output.show { display: block; }
+  .copy-btn {
+    margin-top: .6rem; font-size: .78rem; background: none; border: 1px solid var(--line);
+    border-radius: 6px; padding: .3rem .7rem; cursor: pointer; color: var(--ink-soft);
+  }
+  .copy-btn:hover { border-color: var(--c, var(--violet)); color: var(--c, var(--violet)); }
+
+  .progress { display: flex; gap: .4rem; justify-content: center; margin-bottom: 2.5rem; }
+  .progress .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+  .progress .dot.done { background: var(--amber); }
+
+  footer { text-align: center; padding: 2rem 1.5rem; color: var(--ink-soft); font-size: .85rem; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a class="brand" href="index.html">🎬 AI Video Tutorial</a>
+    <div class="links">
+      <a href="index.html">Hub</a>
+      <a href="tutorial.html">Tutorial</a>
+      <a href="workshop.html" class="active">Workshop</a>
+      <a href="prompts.html">Prompt Library</a>
+      <a href="he/tutorial.html">עברית</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>🛠️ Build Your First AI Video</h1>
+  <p>Three short exercises. Fill in your own details, then copy the assembled brief straight into Claude.</p>
+</header>
+
+<div class="container">
+
+  <div class="progress" id="progress">
+    <span class="dot" data-dot="1"></span>
+    <span class="dot" data-dot="2"></span>
+    <span class="dot" data-dot="3"></span>
+  </div>
+
+  <div class="exercise" style="--c:#6c5ce7">
+    <span class="step-tag">Exercise 1 of 3</span>
+    <h2>Write your brief</h2>
+    <p class="instructions">Every good video starts with a clear brief. Fill in the blanks below — this becomes the first paragraph you paste into Claude.</p>
+
+    <label for="topic">What is the video about?</label>
+    <input type="text" id="topic" placeholder="e.g. how our app saves small businesses time on invoicing">
+    <p class="hint">Be specific — "a productivity app" is vague, "how our app auto-fills invoices from photos" is a brief.</p>
+
+    <label for="audience">Who is it for?</label>
+    <input type="text" id="audience" placeholder="e.g. small business owners who currently do invoicing by hand">
+
+    <label for="length">How long, and where will it run?</label>
+    <input type="text" id="length" placeholder="e.g. 30 seconds, for Instagram Reels">
+
+    <label for="tone">What tone or feeling should it have?</label>
+    <input type="text" id="tone" placeholder="e.g. warm, reassuring, a little funny">
+  </div>
+
+  <div class="exercise" style="--c:#e8842c">
+    <span class="step-tag">Exercise 2 of 3</span>
+    <h2>Build your style bible</h2>
+    <p class="instructions">This paragraph gets pasted into <em>every</em> shot prompt so your characters and setting stay visually consistent across clips.</p>
+
+    <label for="subject">Main subject (person, product, or character)</label>
+    <input type="text" id="subject" placeholder="e.g. a woman in her 30s, curly brown hair, olive-green cardigan">
+
+    <label for="setting">Setting / environment</label>
+    <input type="text" id="setting" placeholder="e.g. a sunlit home office with plants and a wooden desk">
+
+    <label for="style">Visual style</label>
+    <input type="text" id="style" placeholder="e.g. cinematic, warm color grade, shallow depth of field, 35mm film look">
+
+    <label for="negatives">What to avoid (negative directives)</label>
+    <input type="text" id="negatives" placeholder="e.g. no text overlays, no flicker, no blurry motion">
+  </div>
+
+  <div class="exercise" style="--c:#0d9488">
+    <span class="step-tag">Exercise 3 of 3</span>
+    <h2>Plan your shots</h2>
+    <p class="instructions">How many 8-second shots do you think this video needs? A 30-second video is usually 3–4 shots.</p>
+
+    <label for="shotcount">Number of shots</label>
+    <input type="text" id="shotcount" placeholder="e.g. 4">
+
+    <label for="shot1">Shot 1 — what happens?</label>
+    <input type="text" id="shot1" placeholder="e.g. she looks frustrated at a pile of paper invoices">
+
+    <label for="shot2">Shot 2 — what happens?</label>
+    <input type="text" id="shot2" placeholder="e.g. she opens the app and photographs an invoice">
+
+    <label for="shot3">Shot 3 — what happens? (optional)</label>
+    <input type="text" id="shot3" placeholder="e.g. the data auto-fills on screen, she smiles">
+
+    <label for="shot4">Shot 4 — what happens? (optional)</label>
+    <input type="text" id="shot4" placeholder="e.g. close on the app logo, tagline appears">
+  </div>
+
+  <button class="assemble-btn" onclick="assemble()">Assemble my Claude prompt →</button>
+  <div class="output" id="output"></div>
+  <button class="copy-btn" id="copyBtn" style="display:none" onclick="copyOutput()">Copy to clipboard</button>
+
+</div>
+
+<footer>
+  Compiled July 2026 · Part of the <a href="index.html">AI Video Tutorial</a> hub
+</footer>
+
+<script>
+function val(id) { return document.getElementById(id).value.trim(); }
+function markDone(n) {
+  document.querySelectorAll('#progress .dot').forEach(d => {
+    if (parseInt(d.dataset.dot) <= n) d.classList.add('done');
+  });
+}
+function assemble() {
+  const topic = val('topic') || '[your video topic]';
+  const audience = val('audience') || '[your audience]';
+  const length = val('length') || '[length and platform]';
+  const tone = val('tone') || '[tone]';
+  const subject = val('subject') || '[main subject description]';
+  const setting = val('setting') || '[setting/environment]';
+  const style = val('style') || '[visual style]';
+  const negatives = val('negatives') || '[things to avoid]';
+  const shotcount = val('shotcount') || '3-4';
+  const shots = [val('shot1'), val('shot2'), val('shot3'), val('shot4')].filter(Boolean);
+
+  let shotList = shots.length
+    ? shots.map((s, i) => `  Shot ${i + 1}: ${s}`).join('\n')
+    : '  [describe each shot briefly]';
+
+  const prompt = `I'm making a video about ${topic}, for ${audience}. ` +
+`It should be ${length}, with a ${tone} tone.
+
+Style bible (reuse this in every shot prompt for consistency):
+Subject: ${subject}
+Setting: ${setting}
+Style: ${style}
+Negative directives: ${negatives}
+
+Rough shot plan (${shotcount} shots):
+${shotList}
+
+Please write:
+1. A short script with narration.
+2. A refined shot list of 8-second scenes based on my rough plan above.
+3. For each scene, a detailed Veo 3.1 prompt (camera movement, lighting, action, audio) that includes the style bible.
+4. Any suggestions to improve pacing or the hook in the first 3 seconds.`;
+
+  const out = document.getElementById('output');
+  out.textContent = prompt;
+  out.classList.add('show');
+  document.getElementById('copyBtn').style.display = 'inline-block';
+  markDone(3);
+  out.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function copyOutput() {
+  const text = document.getElementById('output').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const orig = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => btn.textContent = orig, 1500);
+  });
+}
+['topic','audience','length','tone'].forEach(id =>
+  document.getElementById(id).addEventListener('input', () => markDone(1)));
+['subject','setting','style','negatives'].forEach(id =>
+  document.getElementById(id).addEventListener('input', () => markDone(2)));
+</script>
+
+</body>
+</html>

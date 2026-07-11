@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt Library — AI Video Generation Prompts</title>
+<meta name="description" content="Ready-to-copy prompts for AI video generation: explainers, product demos, social hooks, and testimonials, for use with Veo, Meta AI, and similar tools.">
+<meta property="og:title" content="Prompt Library — AI Video Generation Prompts">
+<meta property="og:description" content="Tested, ready-to-copy prompts for AI video generation, organized by genre.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://dwolfpack.github.io/ai-video-tutorial/assets/og-image.svg">
+<meta property="og:url" content="https://dwolfpack.github.io/ai-video-tutorial/prompts.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16181f; --ink-soft: #4a4f5c; --paper: #faf8f4; --paper-warm: #f3efe7;
+    --card: #ffffff; --line: #e4dfd4; --amber: #e8842c; --amber-soft: #fdeedd;
+    --violet: #6c5ce7; --teal: #0d9488; --blue: #2563eb; --rose: #e11d48;
+    --radius: 14px; --shadow: 0 1px 3px rgba(22,24,31,.06), 0 8px 24px rgba(22,24,31,.07);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter", system-ui, sans-serif; background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 16.5px; }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; line-height: 1.2; }
+  a { color: var(--blue); }
+
+  .site-nav { background: rgba(22,24,31,.94); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .site-nav-inner { max-width: 900px; margin: 0 auto; padding: .8rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .6rem; }
+  .site-nav .brand { color: #f5f2ea; font-family: "Fraunces", serif; font-weight: 700; font-size: .95rem; text-decoration: none; }
+  .site-nav .links { display: flex; gap: 1.3rem; flex-wrap: wrap; }
+  .site-nav .links a { color: rgba(245,242,234,.68); text-decoration: none; font-size: .85rem; font-weight: 500; }
+  .site-nav .links a:hover, .site-nav .links a.active { color: #f0b27a; }
+
+  .hero { background: var(--ink); color: #f5f2ea; padding: 4rem 1.5rem 3.5rem; text-align: center; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 900; margin: 0 0 .8rem; }
+  .hero p { color: rgba(245,242,234,.75); max-width: 580px; margin: 0 auto; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+  .filters { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2.5rem; }
+  .filters button {
+    font-family: "Inter", sans-serif; font-size: .85rem; font-weight: 600;
+    border: 1px solid var(--line); background: var(--card); color: var(--ink-soft);
+    border-radius: 999px; padding: .45rem 1.1rem; cursor: pointer;
+  }
+  .filters button.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  .genre-title { margin: 2.5rem 0 1rem; font-size: 1.3rem; }
+  .genre-title .count { font-family: "Inter"; font-size: .8rem; font-weight: 500; color: var(--ink-soft); }
+
+  .prompt-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 1.3rem 1.4rem; margin-bottom: 1rem; box-shadow: var(--shadow);
+    border-left: 4px solid var(--c, var(--violet));
+  }
+  .prompt-card h3 { font-size: 1rem; margin: 0 0 .4rem; font-family: "Inter"; font-weight: 700; }
+  .prompt-card .body {
+    font-family: "JetBrains Mono", monospace; font-size: .82rem; line-height: 1.7;
+    background: var(--paper-warm); border-radius: 8px; padding: .8rem 1rem;
+    white-space: pre-wrap; color: #2a2d38;
+  }
+  .prompt-card .row-actions { margin-top: .6rem; display: flex; align-items: center; gap: .8rem; }
+  .copy-btn {
+    font-size: .78rem; background: none; border: 1px solid var(--line);
+    border-radius: 6px; padding: .3rem .7rem; cursor: pointer; color: var(--ink-soft);
+  }
+  .copy-btn:hover { border-color: var(--c, var(--violet)); color: var(--c, var(--violet)); }
+  .tag {
+    font-size: .72rem; font-weight: 600; color: var(--c, var(--violet));
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+
+  footer { text-align: center; padding: 2rem 1.5rem; color: var(--ink-soft); font-size: .85rem; border-top: 1px solid var(--line); margin-top: 2rem; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a class="brand" href="index.html">🎬 AI Video Tutorial</a>
+    <div class="links">
+      <a href="index.html">Hub</a>
+      <a href="tutorial.html">Tutorial</a>
+      <a href="workshop.html">Workshop</a>
+      <a href="prompts.html" class="active">Prompt Library</a>
+      <a href="he/tutorial.html">עברית</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>📋 Prompt Library</h1>
+  <p>Tested, ready-to-copy prompts for Veo 3.1, Meta AI, and similar text-to-video models — organized by genre.</p>
+</header>
+
+<div class="container">
+
+  <div class="filters" id="filters">
+    <button class="active" data-genre="all">All</button>
+    <button data-genre="explainer">Explainer</button>
+    <button data-genre="product">Product Demo</button>
+    <button data-genre="social">Social Hook</button>
+    <button data-genre="testimonial">Testimonial</button>
+  </div>
+
+  <div id="prompt-list"></div>
+</div>
+
+<footer>
+  Compiled July 2026 · Part of the <a href="index.html">AI Video Tutorial</a> hub
+</footer>
+
+<script>
+const PROMPTS = [
+  {
+    genre: "explainer", color: "#6c5ce7",
+    title: "Whiteboard concept explainer",
+    body: `Slow dolly-in, eye level. A person in a heather-gray sweater stands
+at a glass whiteboard in a bright studio, sketching a simple diagram
+with a black marker while explaining a concept, calm confident energy.
+Soft daylight from a large window, shallow depth of field.
+Style: clean, modern, documentary-style.
+Audio: marker squeaking, quiet room tone, no music.
+Negative: no text overlays, no flicker, no warped hands.`
+  },
+  {
+    genre: "explainer", color: "#6c5ce7",
+    title: "Abstract data visualization",
+    body: `Smooth camera push through a dark 3D space filled with glowing
+particle clusters that organize themselves into a simple bar chart,
+then a line graph trending upward.
+Style: minimal, high-tech, deep blues and teal accents, soft glow.
+Audio: subtle ambient synth swell, soft whoosh as shapes form.
+Negative: no readable text, no logos, no clutter.`
+  },
+  {
+    genre: "product", color: "#e8842c",
+    title: "Hands-on product close-up",
+    body: `Macro shot, shallow depth of field, slow rotation.
+A pair of hands turns a matte-black wireless earbud case in soft
+studio light, the lid opens releasing a faint glow.
+Style: premium product photography look, high contrast, dark background.
+Audio: soft click of the case opening, subtle ambient hum.
+Negative: no fingerprints, no dust, no motion blur, no branding text.`
+  },
+  {
+    genre: "product", color: "#e8842c",
+    title: "App screen-to-life transition",
+    body: `Static phone in frame showing an app interface, then the camera
+pulls back and the scene behind the phone transitions into the
+real-world action the app represents (e.g. a delivery arriving).
+Style: bright, optimistic, natural lighting, handheld but stable.
+Audio: soft UI notification chime, then ambient street sound.
+Negative: no glare on screen, no distorted UI, no illegible text.`
+  },
+  {
+    genre: "social", color: "#0d9488",
+    title: "3-second cold open hook",
+    body: `Extreme close-up, fast whip-pan into frame. A person's face,
+mid-laugh, reacting to something just out of frame, high energy,
+bright saturated colors, handheld camera shake.
+Style: vertical 9:16, vlog aesthetic, punchy contrast.
+Audio: a single sharp sound effect on the whip-pan, then silence.
+Negative: no blur on the face, no text, no watermark.`
+  },
+  {
+    genre: "social", color: "#0d9488",
+    title: "Before/after reveal swipe",
+    body: `Vertical frame split down the middle. Camera pushes forward as
+the dividing line sweeps left to right, revealing a transformed
+version of the same room/object on the right side.
+Style: crisp, high saturation, satisfying and clean.
+Audio: a soft swoosh synced to the reveal, upbeat sting at the end.
+Negative: no ghosting on the transition, no mismatched lighting.`
+  },
+  {
+    genre: "testimonial", color: "#2563eb",
+    title: "Warm customer testimonial",
+    body: `Medium shot, static camera, slight handheld sway. A person sits
+in a cozy living room, natural window light, speaking warmly and
+genuinely to someone just off-camera, occasional smile.
+Style: soft warm color grade, shallow depth of field, documentary feel.
+Audio: clear voice presence, faint room tone, no music.
+Negative: no lip-sync mismatch, no overexposed window, no stiff posture.`
+  },
+  {
+    genre: "testimonial", color: "#2563eb",
+    title: "Before-the-product struggle moment",
+    body: `Medium-wide shot, static camera, muted color palette.
+A person at a cluttered desk rubs their temples, surrounded by
+scattered papers, looking overwhelmed but relatable, not exaggerated.
+Style: slightly desaturated, naturalistic, soft overcast light.
+Audio: quiet ambient office sound, a tired sigh.
+Negative: no dramatic music, no cartoonish exaggeration, no text overlays.`
+  }
+];
+
+const list = document.getElementById('prompt-list');
+
+function render(filter) {
+  list.innerHTML = '';
+  const genres = filter === 'all'
+    ? [...new Set(PROMPTS.map(p => p.genre))]
+    : [filter];
+
+  genres.forEach(g => {
+    const items = PROMPTS.filter(p => p.genre === g);
+    if (!items.length) return;
+    const heading = document.createElement('h2');
+    heading.className = 'genre-title';
+    heading.innerHTML = `${g.charAt(0).toUpperCase() + g.slice(1)} <span class="count">${items.length} prompt${items.length > 1 ? 's' : ''}</span>`;
+    list.appendChild(heading);
+
+    items.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'prompt-card';
+      card.style.setProperty('--c', p.color);
+      const id = `p-${g}-${i}`;
+      card.innerHTML = `
+        <span class="tag">${p.genre}</span>
+        <h3>${p.title}</h3>
+        <div class="body" id="${id}">${p.body}</div>
+        <div class="row-actions">
+          <button class="copy-btn" data-target="${id}">Copy prompt</button>
+        </div>`;
+      list.appendChild(card);
+    });
+  });
+
+  list.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = document.getElementById(btn.dataset.target).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copied ✓';
+        setTimeout(() => btn.textContent = orig, 1500);
+      });
+    });
+  });
+}
+
+document.getElementById('filters').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  render(e.target.dataset.genre);
+});
+
+render('all');
+</script>
+
+</body>
+</html>
